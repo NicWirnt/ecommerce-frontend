@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-import { Alert, Button, Container, Form } from "react-bootstrap";
+import { Alert, Button, Container, Form, Spinner } from "react-bootstrap";
 import "./registerForm.css";
+import { useDispatch } from "react-redux";
+import { postUserAction } from "../../pages/register-login/signInUpAction";
+import { isPending } from "../../pages/register-login/signInUpSlice";
 
 const RegisterForm = () => {
+  const dispatch = useDispatch();
   const [form, setForm] = useState({});
   const [error, setError] = useState(false);
 
@@ -19,8 +23,12 @@ const RegisterForm = () => {
     e.preventDefault();
     const { password, confirmPassword } = form;
 
-    password === confirmPassword ? setError(false) : setError(true);
-    console.log(form);
+    if (password !== confirmPassword) {
+      return setError(true);
+    }
+    setError(false);
+
+    dispatch(postUserAction());
   };
 
   return (
@@ -98,9 +106,13 @@ const RegisterForm = () => {
               Confirm password do not match
             </Alert>
           </Form.Group>
-          <Button variant="primary" type="submit">
-            Sign up
-          </Button>
+          {isPending ? (
+            <Spinner variant="danger" animation="border"></Spinner>
+          ) : (
+            <Button variant="primary" type="submit">
+              Sign up
+            </Button>
+          )}
         </Form>
       </div>
     </Container>
