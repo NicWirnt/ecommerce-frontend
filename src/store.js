@@ -3,7 +3,7 @@ import SignInUpReducer from "./pages/register-login/signInUpSlice.js";
 
 const store = configureStore({
   reducer: {
-    SignInUp: SignInUpReducer,
+    signInUp: SignInUpReducer,
   },
 });
 

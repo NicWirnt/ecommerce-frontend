@@ -1,14 +1,28 @@
 import React, { useState } from "react";
 import { Alert, Button, Container, Form, Spinner } from "react-bootstrap";
 import "./registerForm.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { postUserAction } from "../../pages/register-login/signInUpAction";
 import { isPending } from "../../pages/register-login/signInUpSlice";
 
+const initialState = {
+  fName: "Sam",
+  lName: "Smith",
+  email: "sam@email.com",
+  dob: "2000-02-20",
+  password: "123456",
+  confirmPassword: "123456",
+  phone: "1234567890",
+  address: "123 Sydney",
+};
+
 const RegisterForm = () => {
   const dispatch = useDispatch();
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState(initialState);
   const [error, setError] = useState(false);
+
+  //pull data from redux store
+  const { isLoading, response } = useSelector((state) => state.signInUp);
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -21,14 +35,15 @@ const RegisterForm = () => {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    const { password, confirmPassword } = form;
 
-    if (password !== confirmPassword) {
+    if (form.password !== form.confirmPassword) {
       return setError(true);
     }
     setError(false);
 
-    dispatch(postUserAction());
+    const { confirmPassword, ...rest } = form;
+
+    dispatch(postUserAction(rest));
   };
 
   return (
@@ -42,6 +57,7 @@ const RegisterForm = () => {
             <Form.Control
               onChange={handleOnChange}
               name="fName"
+              value={form.fName}
               placeholder="Enter your first name"
               required
             />
@@ -51,7 +67,18 @@ const RegisterForm = () => {
             <Form.Control
               onChange={handleOnChange}
               name="lName"
+              value={form.lName}
               placeholder="Enter your last name"
+              required
+            />
+          </Form.Group>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Phone Number </Form.Label>
+            <Form.Control
+              onChange={handleOnChange}
+              name="phone"
+              value={form.phone}
+              placeholder="Enter your phone number"
               required
             />
           </Form.Group>
@@ -60,6 +87,7 @@ const RegisterForm = () => {
             <Form.Control
               onChange={handleOnChange}
               name="dob"
+              value={form.dob}
               type="date"
               placeholder="2020-02-20"
             />
@@ -69,6 +97,7 @@ const RegisterForm = () => {
             <Form.Control
               onChange={handleOnChange}
               name="address"
+              value={form.address}
               placeholder="Enter your address"
             />
           </Form.Group>
@@ -77,6 +106,7 @@ const RegisterForm = () => {
             <Form.Control
               onChange={handleOnChange}
               name="email"
+              value={form.email}
               type="email"
               placeholder="Enter email"
               required
@@ -88,6 +118,7 @@ const RegisterForm = () => {
             <Form.Control
               onChange={handleOnChange}
               name="password"
+              value={form.password}
               type="password"
               placeholder="Password"
               required
@@ -98,6 +129,7 @@ const RegisterForm = () => {
             <Form.Control
               onChange={handleOnChange}
               name="confirmPassword"
+              value={form.confirmPassword}
               type="password"
               placeholder="Confirm Password"
               required
@@ -106,13 +138,23 @@ const RegisterForm = () => {
               Confirm password do not match
             </Alert>
           </Form.Group>
-          {isPending ? (
-            <Spinner variant="danger" animation="border"></Spinner>
-          ) : (
-            <Button variant="primary" type="submit">
-              Sign up
-            </Button>
-          )}
+          <Form.Group>
+            {response.message && (
+              <Alert
+                variant={response.status === "success" ? "success" : "danger"}
+              >
+                {response.message}
+              </Alert>
+            )}
+          </Form.Group>
+
+          <Button variant="primary" type="submit">
+            {isLoading ? (
+              <Spinner variant="primary" animation="border" size="sm"></Spinner>
+            ) : (
+              "  Sign up"
+            )}
+          </Button>
         </Form>
       </div>
     </Container>
