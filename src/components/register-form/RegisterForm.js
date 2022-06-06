@@ -138,7 +138,7 @@ const RegisterForm = () => {
               Confirm password do not match
             </Alert>
           </Form.Group>
-          <Form.Group>
+          {/* <Form.Group>
             {response.message && (
               <Alert
                 variant={response.status === "success" ? "success" : "danger"}
@@ -146,7 +146,7 @@ const RegisterForm = () => {
                 {response.message}
               </Alert>
             )}
-          </Form.Group>
+          </Form.Group> */}
 
           <Button variant="primary" type="submit">
             {isLoading ? (
@@ -156,6 +156,10 @@ const RegisterForm = () => {
             )}
           </Button>
         </Form>
+        <div className="text-end">
+          Already have an account?
+          <a href="/">Login Now</a>
+        </div>
       </div>
     </Container>
   );
