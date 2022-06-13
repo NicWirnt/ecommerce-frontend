@@ -7,12 +7,18 @@ import LoginPage from "./pages/register-login/Login";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EmailVerification from "./pages/register-login/EmailVerification";
+import Dashboard from "./pages/dashboard/Dashboard";
+import AdminProfile from "./pages/admin-profile/AdminProfile";
 
 const App = () => {
   return (
     <div className="">
       <BrowserRouter>
         <Routes>
+          {/* PRIVATE ROUTE */}
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/admin-profile" element={<AdminProfile />} />
+
           <Route path="/" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/admin/verify-email" element={<EmailVerification />} />

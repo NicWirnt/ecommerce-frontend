@@ -30,3 +30,16 @@ export const postEmailVerification = async (obj) => {
     };
   }
 };
+
+export const loginUser = async (usrObj) => {
+  try {
+    const { data } = await axios.post(adminAPI + "/login", usrObj);
+
+    return data;
+  } catch (error) {
+    return {
+      status: "error",
+      message: error?.response?.data?.message || error.message,
+    };
+  }
+};

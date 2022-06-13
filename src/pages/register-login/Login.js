@@ -1,11 +1,12 @@
 import React from "react";
-import Loading from "../../components/loading/Loading";
+
+import LoginForm from "../../components/login-form/LoginForm";
 import { DefaultLayout } from "../layouts/DefaultLayout";
 
 const LoginPage = () => {
   return (
     <DefaultLayout>
-      <Loading />
+      <LoginForm />
     </DefaultLayout>
   );
 };

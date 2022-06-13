@@ -1,0 +1,9 @@
+.form-content{
+    width: 400px;
+    margin:auto;
+    background: tan;
+    padding: 1rem;
+    border-radius:10px;
+
+    box-shadow:-5px 5px 10px peachpuff;
+}
