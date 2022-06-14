@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import EmailVerification from "./pages/register-login/EmailVerification";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AdminProfile from "./pages/admin-profile/AdminProfile";
+import Categories from "./pages/category/Categories";
 
 const App = () => {
   return (
@@ -18,6 +19,7 @@ const App = () => {
           {/* PRIVATE ROUTE */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/admin-profile" element={<AdminProfile />} />
+          <Route path="/categories" element={<Categories />} />
 
           <Route path="/" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />

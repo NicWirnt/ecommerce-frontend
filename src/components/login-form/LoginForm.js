@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Button, Container, Form, Spinner } from "react-bootstrap";
 import "./loginForm.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,15 +7,23 @@ import {
   postUserAction,
 } from "../../pages/register-login/signInUpAction";
 import { isPending } from "../../pages/register-login/signInUpSlice";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const nav = useNavigate();
+
   // const [form, setForm] = useState(initialState);
   //pull data from redux store
   const { isLoading } = useSelector((state) => state.signInUp);
+  const { user } = useSelector((state) => state.admin);
 
   const emailRef = useRef();
   const passRef = useRef();
+
+  useEffect(() => {
+    user._id && nav("/dashboard");
+  }, [user]);
 
   const handleOnSubmit = (e) => {
     e.preventDefault();

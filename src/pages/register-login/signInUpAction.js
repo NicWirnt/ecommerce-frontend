@@ -1,6 +1,7 @@
 import { loginUser, postUser } from "../../helper/axiosHelper";
 import { isPending, responseResolved } from "./signInUpSlice.js";
 import { toast } from "react-toastify";
+import { setUser } from "../admin-profile/AdminProfileSlice";
 
 export const postUserAction = (user) => async (dispatch) => {
   dispatch(isPending());
@@ -30,6 +31,11 @@ export const postLoginAction = (user) => async (dispatch) => {
   });
 
   const data = await promiseData;
+
+  if (data.status === "success") {
+    dispatch(setUser(data.user));
+    return;
+  }
 
   toast[data.status](data.message);
   dispatch(responseResolved(data));
