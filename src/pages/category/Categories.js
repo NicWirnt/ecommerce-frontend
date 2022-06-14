@@ -7,6 +7,7 @@ const Categories = () => {
   return (
     <AdminLayout>
       {/* form */}
+      <h3>Categories</h3>
       <CategoryForm />
       <hr />
       {/* table */}
