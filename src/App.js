@@ -11,6 +11,7 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import AdminProfile from "./pages/admin-profile/AdminProfile";
 import Categories from "./pages/category/Categories";
 import { Products } from "./pages/product/Products";
+import { NewProduct } from "./pages/product/NewProduct";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           <Route path="/categories" element={<Categories />} />
 
           <Route path="/products" element={<Products />} />
+          <Route path="/product/new" element={<NewProduct />} />
 
           <Route path="/" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />

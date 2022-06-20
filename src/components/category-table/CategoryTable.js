@@ -8,9 +8,9 @@ import {
 } from "../../pages/category/categoryAction";
 import { toggleModal } from "../../system-state/systemSlice";
 import { EditCategory } from "../category-form/EditCategory";
-import { MyVerticallyCenteredModal } from "../modal/Modal";
 
 const CategoryTable = () => {
+  let number = 0;
   const dispatch = useDispatch();
   const [selectedCat, setSelectedCat] = useState({});
   const { categories } = useSelector((state) => state.category);
@@ -51,7 +51,7 @@ const CategoryTable = () => {
           {parentCat.map((item, i) => (
             <>
               <tr key={item._id}>
-                <td>{i + 1}</td>
+                <td>{(number += 1)}</td>
                 <td>{item.catName}</td>
                 <td
                   className={
@@ -77,7 +77,7 @@ const CategoryTable = () => {
                 if (cat.parentCatId === item._id) {
                   return (
                     <tr key={cat._id}>
-                      <td>{i + 1}</td>
+                      <td>{(number += 1)}</td>
                       <td>➡️{cat.catName}</td>
                       <td
                         className={

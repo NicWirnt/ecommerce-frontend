@@ -3,6 +3,7 @@ import axios from "axios";
 const rootUrlAPI = "http://localhost:8000/api/v1";
 const adminAPI = rootUrlAPI + "/admin";
 const catEP = rootUrlAPI + "/category";
+const productEP = rootUrlAPI + "/products";
 
 // http://localhost:8000/api/v1/admin/email-verification
 // ADMIN API
@@ -103,4 +104,9 @@ export const updateCategory = (dataObj) => {
 export const deleteCategory = (_id) => {
   const url = catEP;
   return apiProcessor({ method: "delete", url, dataObj: { _id } });
+};
+
+export const getProducts = () => {
+  const url = productEP;
+  return apiProcessor({ method: "get", url });
 };

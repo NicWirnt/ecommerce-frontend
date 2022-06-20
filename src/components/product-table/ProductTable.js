@@ -2,49 +2,53 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteCategoryAction,
-  fetchCategoriesAction,
-} from "../../pages/category/categoryAction";
+import { fetchProductsAction } from "../../pages/product/ProductAction";
 import { toggleModal } from "../../system-state/systemSlice";
-import { EditCategory } from "../category-form/EditCategory";
+import { ProductDescription } from "../product-form/ProductDescription";
 
 const ProductTable = () => {
+  let number = 0;
   const dispatch = useDispatch();
-  const { categories } = useSelector((state) => state.category);
+  const [selectedProduct, setSelectedProduct] = useState({});
+  const { products } = useSelector((state) => state.product);
 
   useEffect(() => {
     //call api to fetch all the cats and set in the store
-    dispatch(fetchCategoriesAction());
+    dispatch(fetchProductsAction());
   }, []);
 
   const handleOnDelete = (_id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
-      dispatch(deleteCategoryAction(_id));
+      // dispatch(deleteCategoryAction(_id));
     }
   };
 
-  const parentCat = categories.filter((item) => !item.parentCatId);
-  const childCat = categories.filter((item) => item.parentCatId);
+  const handleOnDescription = (item) => {
+    setSelectedProduct(item);
+    dispatch(toggleModal());
+  };
 
   return (
     <div>
-      {categories.length} Categories found <hr />
+      <ProductDescription selectedProduct={selectedProduct} />
+      {products.length} Products found <hr />
       <Table striped>
         <thead>
           <tr>
             <th>#</th>
-            <th>Name</th>
             <th>Status</th>
-            <th>Action</th>
+            <th>Name</th>
+            <th>SKU</th>
+            <th>QTY</th>
+            <th>Price</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {parentCat.map((item, i) => (
+          {products.map((item, i) => (
             <>
               <tr key={item._id}>
-                <td>{i + 1}</td>
-                <td>{item.catName}</td>
+                <td>{(number += 1)}</td>
                 <td
                   className={
                     item.status == "active" ? "text-success" : "text-danger"
@@ -52,6 +56,16 @@ const ProductTable = () => {
                 >
                   {item.status}
                 </td>
+                <td>
+                  {item.name}{" "}
+                  <i
+                    className="fa-solid fa-circle-info"
+                    onClick={() => handleOnDescription(item)}
+                  ></i>
+                </td>
+                <td>{item.sku}</td>
+                <td>{item.qty}</td>
+                <td>{item.price}</td>
                 <td>
                   <Button variant="warning">Edit</Button>{" "}
                   <Button
@@ -63,35 +77,6 @@ const ProductTable = () => {
                   </Button>
                 </td>
               </tr>
-              {childCat.map((cat, index) => {
-                if (cat.parentCatId === item._id) {
-                  return (
-                    <tr key={cat._id}>
-                      <td>{i + 1}</td>
-                      <td>➡️{cat.catName}</td>
-                      <td
-                        className={
-                          cat.status == "active"
-                            ? "text-success"
-                            : "text-danger"
-                        }
-                      >
-                        {cat.status}
-                      </td>
-                      <td>
-                        <Button variant="warning">Edit</Button>{" "}
-                        <Button
-                          title="You can only delete if child category does not exist"
-                          variant="danger"
-                          onClick={() => handleOnDelete(cat._id)}
-                        >
-                          Delete
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                }
-              })}
             </>
           ))}
         </tbody>
