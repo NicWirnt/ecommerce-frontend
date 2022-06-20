@@ -42,8 +42,10 @@ const ProductTable = () => {
             <th>Status</th>
             <th>Name</th>
             <th>SKU</th>
+            <th>Category</th>
             <th>QTY</th>
             <th>Price</th>
+            <th>Sale Price</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -67,8 +69,10 @@ const ProductTable = () => {
                   ></i>
                 </td>
                 <td>{item.sku}</td>
+                <td>{item.catId}</td>
                 <td>{item.qty}</td>
                 <td>{item.price}</td>
+                <td>{item.salesPrice}</td>
                 <td>
                   <Button variant="warning">Edit</Button>{" "}
                   <Button
