@@ -110,3 +110,8 @@ export const getProducts = () => {
   const url = productEP;
   return apiProcessor({ method: "get", url });
 };
+
+export const deleteProduct = (_id) => {
+  const url = productEP;
+  return apiProcessor({ method: "delete", url, dataObj: { _id } });
+};

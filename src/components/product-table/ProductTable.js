@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductsAction } from "../../pages/product/ProductAction";
+import {
+  deleteProductById,
+  fetchProductsAction,
+} from "../../pages/product/ProductAction";
 import { toggleModal } from "../../system-state/systemSlice";
 import { ProductDescription } from "../product-form/ProductDescription";
 
@@ -19,7 +22,7 @@ const ProductTable = () => {
 
   const handleOnDelete = (_id) => {
     if (window.confirm("Are you sure you want to delete this category?")) {
-      // dispatch(deleteCategoryAction(_id));
+      dispatch(deleteProductById(_id));
     }
   };
 
