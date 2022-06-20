@@ -10,6 +10,7 @@ import EmailVerification from "./pages/register-login/EmailVerification";
 import Dashboard from "./pages/dashboard/Dashboard";
 import AdminProfile from "./pages/admin-profile/AdminProfile";
 import Categories from "./pages/category/Categories";
+import { Products } from "./pages/product/Products";
 
 const App = () => {
   return (
@@ -21,9 +22,12 @@ const App = () => {
           <Route path="/admin-profile" element={<AdminProfile />} />
           <Route path="/categories" element={<Categories />} />
 
+          <Route path="/products" element={<Products />} />
+
           <Route path="/" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/admin/verify-email" element={<EmailVerification />} />
+
           <Route path="*" element={<h1>404 page not found</h1>} />
         </Routes>
       </BrowserRouter>
