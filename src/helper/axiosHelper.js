@@ -95,9 +95,9 @@ export const postCategories = (dataObj) => {
   return apiProcessor({ method: "post", url, dataObj });
 };
 
-export const updateCategories = (dataObj) => {
+export const updateCategory = (dataObj) => {
   const url = catEP;
-  return apiProcessor({ method: "post", url, dataObj });
+  return apiProcessor({ method: "put", url, dataObj });
 };
 
 export const deleteCategory = (_id) => {
