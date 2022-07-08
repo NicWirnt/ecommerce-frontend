@@ -4,6 +4,7 @@ const rootUrlAPI = "http://localhost:8000/api/v1";
 const adminAPI = rootUrlAPI + "/admin";
 const catEP = rootUrlAPI + "/category";
 const productEP = rootUrlAPI + "/products";
+const paymentMethodEP = rootUrlAPI + "/payment-method";
 // http://localhost:8000/api/v1/admin/email-verification
 // ADMIN API
 // data must be an object
@@ -128,5 +129,26 @@ export const deleteProducts = (dataObj) => {
 
 export const updateProduct = (dataObj) => {
   const url = productEP;
+  return apiProcessor({ method: "put", url, dataObj });
+};
+
+// ##### Payment Method API
+export const getPaymentMethods = (_id) => {
+  const url = _id ? paymentMethodEP + "/" + _id : paymentMethodEP;
+  return apiProcessor({ method: "get", url });
+};
+
+export const postPaymentMethod = (dataObj) => {
+  const url = paymentMethodEP;
+  return apiProcessor({ method: "post", url, dataObj });
+};
+
+export const deletePaymentMethod = (_id) => {
+  const url = paymentMethodEP + "/" + _id;
+  return apiProcessor({ method: "delete", url });
+};
+
+export const updatePaymentMethod = (dataObj) => {
+  const url = paymentMethodEP;
   return apiProcessor({ method: "put", url, dataObj });
 };

@@ -13,6 +13,7 @@ import Categories from "./pages/category/Categories";
 import { Products } from "./pages/product/Products";
 import { NewProduct } from "./pages/product/NewProduct";
 import { EditProduct } from "./pages/product/EditProduct";
+import { PaymentMethod } from "./pages/payment-method/PaymentMethod";
 
 const App = () => {
   return (
@@ -27,6 +28,8 @@ const App = () => {
           <Route path="/products" element={<Products />} />
           <Route path="/product/new" element={<NewProduct />} />
           <Route path="/product/edit/:_id" element={<EditProduct />} />
+          <Route path="/payments" element={<PaymentMethod />} />
+
           <Route path="/" element={<LoginPage />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/admin/verify-email" element={<EmailVerification />} />
