@@ -6,7 +6,7 @@ import {
   postProduct,
 } from "../../helper/axiosHelper";
 import { toast } from "react-toastify";
-import { setProducts } from "./productSlice";
+import { setProducts, setSeletectedProduct } from "./productSlice";
 
 export const fetchProductAction = () => async (dispatch) => {
   // call axios helper api
@@ -16,14 +16,50 @@ export const fetchProductAction = () => async (dispatch) => {
   response.status === "success" && dispatch(setProducts(response.result));
 };
 
-// export const postCategoryAction = (catObj) => async (dispatch) => {
-//   const responsePromise = postCategories(catObj);
-//   toast.promise(responsePromise, {
-//     pendiing: "Please wait ....",
-//   });
-//   const result = await responsePromise;
+export const fetchSingleProductAction = (_id) => async (dispatch) => {
+  // call axios helper api
 
-//   toast[result.status](result.message);
+  const response = await getSingleProduct(_id);
 
-//   result.status === "success" && dispatch(fetchCategoriesAction());
-// };
+  response.status === "success" &&
+    dispatch(setSeletectedProduct(response.result));
+};
+export const postProductAction = (dataObj) => async (dispatch) => {
+  const responsePromise = postProduct(dataObj);
+
+  toast.promise(responsePromise, {
+    pending: "Please wait .....",
+  });
+
+  const { status, message } = await responsePromise;
+
+  toast[status](message);
+
+  status === "success" && dispatch(fetchProductAction());
+};
+
+export const deleteProductAction = (ids) => async (dispatch) => {
+  const response = deleteProducts(ids);
+
+  toast.promise(response, {
+    pending: "Please Wait ...",
+  });
+
+  const { status, message } = await response;
+
+  toast[status](message);
+
+  status === "success" && dispatch(fetchProductAction());
+};
+
+export const updateProductAction = (obj) => async (dispatch) => {
+  const responsePromise = updateProduct(obj);
+  toast.promise(responsePromise, {
+    pendiing: "Please wait ....",
+  });
+  const result = await responsePromise;
+
+  toast[result.status](result.message);
+
+  result.status === "success" && dispatch(fetchProductAction());
+};

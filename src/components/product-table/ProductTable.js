@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   deleteCategoryAction,
   fetchCategoriesAction,
 } from "../../pages/category/categoryAction";
-import { fetchProductAction } from "../../pages/product/productAction";
+import {
+  deleteProductAction,
+  fetchProductAction,
+} from "../../pages/product/productAction";
 
 const ProductTable = () => {
   const dispatch = useDispatch();
+  const [ids, setIds] = useState([]);
   const { products } = useSelector((state) => state.productStore);
 
   useEffect(() => {
@@ -17,12 +22,39 @@ const ProductTable = () => {
     dispatch(fetchProductAction());
   }, []);
 
+  const handleOnDelete = (_id) => {
+    if (window.confirm("Are you sure you want to delete this products?")) {
+      dispatch();
+    }
+  };
+
+  const handleOnSelect = (e) => {
+    const { checked, value } = e.target;
+
+    if (value === "all") {
+      if (checked) {
+        const allIds = products.map((item) => item._id);
+        setIds(allIds);
+      } else {
+        setIds([]);
+      }
+      return;
+    }
+
+    checked
+      ? setIds([...ids, value])
+      : setIds(ids.filter((id) => id !== value));
+  };
+
   return (
-    <div>
+    <div style={{ overflowX: "scroll" }} className="mb-5">
       Products found <hr />
       <Table striped>
         <thead>
           <tr>
+            <th>
+              <Form.Check name="status" value="all" onChange={handleOnSelect} />
+            </th>
             <th>#</th>
             <th>Status</th>
             <th>Name</th>
@@ -36,6 +68,15 @@ const ProductTable = () => {
         <tbody>
           {products.map((item, i) => (
             <tr key={item._id}>
+              <td>
+                <Form.Check
+                  name="status"
+                  id="custom-switch"
+                  onChange={handleOnSelect}
+                  value={item._id}
+                  checked={ids.includes(item._id)}
+                />
+              </td>
               <td>{i + 1}</td>
               <td
                 className={
@@ -46,22 +87,35 @@ const ProductTable = () => {
               </td>
               <td>{item.name}</td>
               <td>{item.qty}</td>
-              <td>{item.price}</td>
-              <td>{item.salesprice}</td>
-              <td>{item.salesPrice}</td>
+              <td>${item.price.toLocaleString()}</td>
+              <td>{item.salesPrice || "-"}</td>
               <td>
-                <Button variant="warning">Edit</Button>{" "}
-                <Button
-                  title="You can only delete if child category does not exist"
-                  variant="danger"
-                >
-                  Delete
-                </Button>
+                {item.salesStartDate
+                  ? new Date(item.salesStartDate).toLocaleDateString() +
+                    " - " +
+                    new Date(item.salesEndDate).toLocaleDateString()
+                  : " - "}
+              </td>
+              <td>
+                <Link to={`/product/edit/${item._id}`}>
+                  <Button variant="warning">Edit</Button>{" "}
+                </Link>
               </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      <div className="text-end">
+        {ids.length > 0 && (
+          <Button
+            title="You can only delete if child category does not exist"
+            variant="danger"
+            onClick={() => dispatch(deleteProductAction(ids)) && setIds([])}
+          >
+            Delete
+          </Button>
+        )}
+      </div>
     </div>
   );
 };
