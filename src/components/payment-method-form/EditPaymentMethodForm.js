@@ -6,20 +6,21 @@ import { CustomInput } from "../custom-input/CustomInput";
 import { MyVerticallyCenteredModal } from "../modal/Modal";
 
 const initialState = {
-  status: "inactive",
-  name: "",
-  description: "",
+  // _id: "",
+  // status: "inactive",
+  // name: "",
+  // description: "",
 };
 
 export const EditPaymentMethodForm = () => {
-  const [form, setForm] = useState(initialState);
-
   const dispatch = useDispatch();
   const { selectedPaymentMethod } = useSelector((state) => state.paymentMethod);
+  const [form, setForm] = useState(initialState);
 
   useEffect(() => {
     setForm(selectedPaymentMethod);
   }, [selectedPaymentMethod]);
+
   const inputFields = [
     {
       name: "name",
@@ -48,12 +49,14 @@ export const EditPaymentMethodForm = () => {
       ...form,
       [name]: value,
     });
+    console.log(form);
   };
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
     const { createdAt, updatedAt, __v, ...rest } = form;
     console.log(rest);
+    console.log(form);
     dispatch(updatePaymentMethodAction(rest));
   };
 
