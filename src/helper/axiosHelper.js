@@ -30,6 +30,7 @@ const apiProcessor = async ({ method, url, dataObj }) => {
   }
 };
 
+// #### ADMIN EP
 export const postUser = async (dataObj) => {
   const url = adminAPI;
   return apiProcessor({ method: "post", url, dataObj });
@@ -43,6 +44,12 @@ export const postEmailVerification = (dataObj) => {
 export const loginUser = (dataObj) => {
   const url = adminAPI + "/login";
   return apiProcessor({ method: "post", url, dataObj });
+};
+
+// ### UPDATE ADMIN PROFILE
+export const updateAdminUser = async (dataObj) => {
+  const url = adminAPI;
+  return apiProcessor({ method: "put", url, dataObj });
 };
 
 // export const postUser = async (usrObj) => {
