@@ -33,7 +33,7 @@ const CategoryTable = () => {
 
   const parentCat = categories.filter((item) => !item.parentCatId);
   const childCat = categories.filter((item) => item.parentCatId);
-
+  let number = 1;
   return (
     <div>
       <EditCategory selectedCat={selectedCat} />
@@ -51,7 +51,7 @@ const CategoryTable = () => {
           {parentCat.map((item, i) => (
             <>
               <tr key={item._id}>
-                <td>{i + 1}</td>
+                <td>{number++}</td>
                 <td>{item.catName}</td>
                 <td
                   className={
@@ -77,8 +77,8 @@ const CategoryTable = () => {
                 if (cat.parentCatId === item._id) {
                   return (
                     <tr key={cat._id}>
-                      <td>{i + 1}</td>
-                      <td>➡️{cat.catName}</td>
+                      <td>{number++}</td>
+                      <td>&nbsp; &nbsp; ➡️{cat.catName}</td>
                       <td
                         className={
                           cat.status == "active"

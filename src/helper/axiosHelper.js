@@ -159,3 +159,15 @@ export const updatePaymentMethod = (dataObj) => {
   const url = paymentMethodEP;
   return apiProcessor({ method: "put", url, dataObj });
 };
+
+// #### REQUEST OTP
+
+export const requestPasswordResetOTP = (dataObj) => {
+  const url = adminAPI + "/otp-request";
+  return apiProcessor({ method: "post", url, dataObj });
+};
+
+export const updateAdminPassword = (dataObj) => {
+  const url = adminAPI + "/password";
+  return apiProcessor({ method: "patch", url, dataObj });
+};

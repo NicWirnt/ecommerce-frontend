@@ -14,6 +14,7 @@ import { Products } from "./pages/product/Products";
 import { NewProduct } from "./pages/product/NewProduct";
 import { EditProduct } from "./pages/product/EditProduct";
 import { PaymentMethod } from "./pages/payment-method/PaymentMethod";
+import ResetPassword from "./pages/register-login/ResetPassword";
 
 const App = () => {
   return (
@@ -30,7 +31,9 @@ const App = () => {
           <Route path="/product/edit/:_id" element={<EditProduct />} />
           <Route path="/payments" element={<PaymentMethod />} />
 
+          {/* public routes */}
           <Route path="/" element={<LoginPage />} />
+          <Route path="/forget-password" element={<ResetPassword />} />
           <Route path="/register" element={<RegistrationPage />} />
           <Route path="/admin/verify-email" element={<EmailVerification />} />
 

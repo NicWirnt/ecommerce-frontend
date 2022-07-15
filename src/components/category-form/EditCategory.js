@@ -47,7 +47,7 @@ export const EditCategory = ({ selectedCat }) => {
     // dispatdh action to update the category
     dispatch(updateCategoryAction({ _id, parentCatId, catName, status }));
   };
-  console.log(form);
+
   return (
     <MyVerticallyCenteredModal title="Edit Category">
       <Form className="py-5" onSubmit={handleOnSubmit}>

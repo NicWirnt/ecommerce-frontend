@@ -1,6 +1,15 @@
-import { updateAdminUser } from "../../helper/axiosHelper";
+import {
+  requestPasswordResetOTP,
+  updateAdminPassword,
+  updateAdminUser,
+} from "../../helper/axiosHelper";
 import { toast } from "react-toastify";
-import { setUser } from "./AdminProfileSlice";
+import {
+  setIsLoading,
+  setPassResetResponse,
+  setPassResettingEmail,
+  setUser,
+} from "./AdminProfileSlice";
 
 export const updateAdminProfileAction = (obj) => async (dispatch) => {
   const promiseResponse = updateAdminUser(obj);
@@ -14,4 +23,22 @@ export const updateAdminProfileAction = (obj) => async (dispatch) => {
   toast[status](message);
 
   status === "success" && dispatch(setUser(user));
+};
+
+export const requestPassResetOTPAction = (obj) => async (dispatch) => {
+  dispatch(setIsLoading(true));
+  const response = await requestPasswordResetOTP(obj);
+  dispatch(setPassResettingEmail(obj.email));
+  dispatch(setPassResetResponse(response));
+};
+
+export const resetPassAction = (obj) => async (dispatch) => {
+  const responsePromise = updateAdminPassword(obj);
+  toast.promise(responsePromise, {
+    pending: "Please Wait...",
+  });
+
+  const { status, message } = await responsePromise;
+
+  toast[status](message);
 };

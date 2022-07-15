@@ -86,6 +86,10 @@ const LoginForm = () => {
             )}
           </Button>
         </Form>
+        <div className="text-end">
+          Forget Password?
+          <a href="/forget-password">Reset Password</a> Now ...
+        </div>
       </div>
     </Container>
   );
