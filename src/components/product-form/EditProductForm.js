@@ -10,16 +10,18 @@ import {
 import { CustomInput } from "../custom-input/CustomInput";
 
 const initialState = {
-  //   catId: null,
-  //   description: " asjfdlajl fas",
-  //   name: "proudct 1",
-  //   price: 10,
-  //   qty: 10,
-  //   salesEndDate: null,
-  //   salesPrice: 0,
-  //   salesStartDate: null,
-  //   sku: "sdf",
-  //   status: "inactive",
+  catId: null,
+  description: " asjfdlajl fas",
+  name: "proudct 1",
+  price: 10,
+  qty: 10,
+  salesEndDate: null,
+  salesPrice: 0,
+  salesStartDate: null,
+  sku: "sdf",
+  status: "inactive",
+  images: [],
+  thumbnail: "",
 };
 
 export const EditProductForm = () => {
@@ -27,6 +29,8 @@ export const EditProductForm = () => {
   const { categories } = useSelector((state) => state.category);
   const { selectedProduct } = useSelector((state) => state.productStore);
   const [form, setForm] = useState(initialState);
+  const [images, setImages] = useState([]);
+  const [imgToDelete, setImgToDelete] = useState([]);
 
   useEffect(() => {
     dispatch(fetchCategoriesAction());
@@ -44,6 +48,20 @@ export const EditProductForm = () => {
       ...form,
       [name]: value,
     });
+  };
+
+  const handleOnImageSelect = (e) => {
+    const { files } = e.target;
+    setImages(files);
+  };
+
+  const handleOnImageDelete = (e) => {
+    const { checked, name, value } = e.target;
+    if (checked) {
+      setImgToDelete([...imgToDelete, value]);
+    } else {
+      setImgToDelete(imgToDelete.filter((imgPath) => imgPath != value));
+    }
   };
 
   const handleOnSubmit = (e) => {
@@ -69,7 +87,14 @@ export const EditProductForm = () => {
     rest.salesStartDate = rest.salesStartDate ? rest.salesStartDate : null;
     rest.salesEndDate = rest.salesEndDate ? rest.salesEndDate : null;
 
-    dispatch(updateProductAction(rest));
+    //bundle in formData
+    const formData = new FormData();
+
+    for (const key in rest) {
+      formData.append(key, rest[key]);
+    }
+
+    dispatch(updateProductAction(formData));
   };
 
   const inputFields = [
@@ -142,8 +167,17 @@ export const EditProductForm = () => {
       required: true,
       value: form.description,
     },
+    {
+      name: "images",
+      type: "file",
+      multiple: true,
+      accept: "image/*",
+      required: true,
+    },
   ];
 
+  console.log(imgToDelete);
+  console.log(form);
   return (
     <Form className="mb-5" onSubmit={handleOnSubmit}>
       <Form.Group className="mb-3">
@@ -181,10 +215,45 @@ export const EditProductForm = () => {
       </Form.Group>
 
       {inputFields.map((item, i) => (
-        <CustomInput key={i} {...item} onChange={handleOnChange} />
+        <CustomInput
+          key={i}
+          {...item}
+          onChange={
+            item.name === "images" ? handleOnImageSelect : handleOnChange
+          }
+        />
       ))}
 
-      <Button variant="primary" type="submit">
+      <hr />
+      <div className="d-flex my-2">
+        {selectedProduct.images.length &&
+          selectedProduct.images.map((imgLink) => (
+            <div className="img p-1">
+              <Form.Check
+                type="radio"
+                label="Use as Thumbnail"
+                name="thumbnail"
+                onChange={handleOnChange}
+                value={imgLink}
+              ></Form.Check>
+              <img
+                crossOrigin="anonymous"
+                key={imgLink}
+                src={process.env.REACT_APP_IMAGE_SERVER_URL + imgLink.substr(6)}
+                alt="products image"
+                width="200px"
+                className="img-thumbnail rounded"
+              />
+              <Form.Check
+                label="Delete"
+                value={imgLink}
+                onChange={handleOnImageDelete}
+              ></Form.Check>
+            </div>
+          ))}
+      </div>
+
+      <Button variant="warning" type="submit">
         Update Product
       </Button>
     </Form>

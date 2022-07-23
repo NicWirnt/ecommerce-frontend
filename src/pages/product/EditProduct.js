@@ -19,7 +19,7 @@ export const EditProduct = () => {
 
   return (
     <AdminLayout>
-      <h3>Add Product</h3>
+      <h3>Edit Product</h3>
       <div className="mt-3 mb-3">
         <Link to="/products">
           <Button variant="none">
