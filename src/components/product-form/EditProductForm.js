@@ -29,7 +29,7 @@ export const EditProductForm = () => {
   const { categories } = useSelector((state) => state.category);
   const { selectedProduct } = useSelector((state) => state.productStore);
   const [form, setForm] = useState(initialState);
-  const [images, setImages] = useState([]);
+  const [newImages, setImages] = useState([]);
   const [imgToDelete, setImgToDelete] = useState([]);
 
   useEffect(() => {
@@ -94,6 +94,10 @@ export const EditProductForm = () => {
       formData.append(key, rest[key]);
     }
 
+    newImages.length &&
+      [...newImages].map((img) => formData.append("newImages", img));
+
+    formData.append("imgToDelete", imgToDelete);
     dispatch(updateProductAction(formData));
   };
 
@@ -175,8 +179,6 @@ export const EditProductForm = () => {
       required: true,
     },
   ];
-
-  console.log(imgToDelete);
   console.log(form);
   return (
     <Form className="mb-5" onSubmit={handleOnSubmit}>
@@ -226,7 +228,7 @@ export const EditProductForm = () => {
 
       <hr />
       <div className="d-flex my-2">
-        {selectedProduct.images.length &&
+        {selectedProduct.images?.length &&
           selectedProduct.images.map((imgLink) => (
             <div className="img p-1">
               <Form.Check
