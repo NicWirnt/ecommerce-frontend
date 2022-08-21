@@ -65,23 +65,13 @@ export const EditProductForm = () => {
   };
 
   const handleOnSubmit = (e) => {
+    console.log(form);
     e.preventDefault();
 
     if (!window.confirm("Are you sure you want to update this product?"))
       return;
 
-    console.log(form);
-    const {
-      __v,
-      updatedAt,
-      thumbnail,
-      slug,
-      sku,
-      ratings,
-      image,
-      createdAt,
-      ...rest
-    } = form;
+    const { __v, updatedAt, slug, sku, ratings, createdAt, ...rest } = form;
 
     rest.salesPrice = Number(rest.salesPrice) ? +rest.salesPrice : 0;
     rest.salesStartDate = rest.salesStartDate ? rest.salesStartDate : null;
@@ -92,12 +82,14 @@ export const EditProductForm = () => {
 
     for (const key in rest) {
       formData.append(key, rest[key]);
+      console.log(key, rest[key]);
     }
 
     newImages.length &&
       [...newImages].map((img) => formData.append("newImages", img));
 
     formData.append("imgToDelete", imgToDelete);
+
     dispatch(updateProductAction(formData));
   };
 
@@ -176,10 +168,9 @@ export const EditProductForm = () => {
       type: "file",
       multiple: true,
       accept: "image/*",
-      required: true,
     },
   ];
-  console.log(form);
+
   return (
     <Form className="mb-5" onSubmit={handleOnSubmit}>
       <Form.Group className="mb-3">
@@ -207,7 +198,7 @@ export const EditProductForm = () => {
                 <option
                   key={item._id}
                   value={item._id}
-                  selected={item._id === selectedProduct.catId}
+                  selected={item._id === selectedProduct?.catId}
                 >
                   {item.catName}
                 </option>
@@ -237,6 +228,7 @@ export const EditProductForm = () => {
                 name="thumbnail"
                 onChange={handleOnChange}
                 value={imgLink}
+                checked={imgLink === form.thumbnail}
               ></Form.Check>
               <img
                 crossOrigin="anonymous"
