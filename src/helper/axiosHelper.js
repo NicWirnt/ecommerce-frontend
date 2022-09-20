@@ -167,7 +167,14 @@ export const requestPasswordResetOTP = (dataObj) => {
   return apiProcessor({ method: "post", url, dataObj });
 };
 
+//reset password
 export const updateAdminPassword = (dataObj) => {
   const url = adminAPI + "/password";
+  return apiProcessor({ method: "patch", url, dataObj });
+};
+
+//update password
+export const updateAdminPasswordFormProfile = (dataObj) => {
+  const url = adminAPI + "/update-password";
   return apiProcessor({ method: "patch", url, dataObj });
 };
