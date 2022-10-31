@@ -8,12 +8,13 @@ const paymentMethodEP = rootUrlAPI + "/payment-method";
 // http://localhost:8000/api/v1/admin/email-verification
 // ADMIN API
 // data must be an object
-const apiProcessor = async ({ method, url, dataObj }) => {
+const apiProcessor = async ({ method, url, dataObj, headers }) => {
   try {
     const { data } = await axios({
       method,
       url,
       data: dataObj,
+      headers,
     });
     return data;
   } catch (error) {
@@ -21,6 +22,28 @@ const apiProcessor = async ({ method, url, dataObj }) => {
 
     if (error.message && error.response.data) {
       message = error.response.data.message;
+    }
+
+    if (message === "JWT expired!!") {
+      // call the api to get new refreshJWT and re call the api Processor itself
+      const { accessJWT } = await apiProcessor({
+        method: "get",
+        url: adminAPI + "/accessjwt",
+        headers: {
+          Authorization: localStorage.getItem("refreshJWT"),
+        },
+      });
+      if (accessJWT) {
+        await sessionStorage.setItem("accessJWT", accessJWT);
+        return apiProcessor({
+          method,
+          url,
+          dataObj,
+          headers: {
+            Authorization: accessJWT,
+          },
+        });
+      }
     }
 
     return {
@@ -31,9 +54,27 @@ const apiProcessor = async ({ method, url, dataObj }) => {
 };
 
 // #### ADMIN EP
-export const postUser = async (dataObj) => {
+export const getAdminUser = () => {
   const url = adminAPI;
-  return apiProcessor({ method: "post", url, dataObj });
+  return apiProcessor({
+    method: "get",
+    url,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
+};
+
+export const postUser = (dataObj) => {
+  const url = adminAPI;
+  return apiProcessor({
+    method: "post",
+    url,
+    dataObj,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 export const postEmailVerification = (dataObj) => {
@@ -49,7 +90,14 @@ export const loginUser = (dataObj) => {
 // ### UPDATE ADMIN PROFILE
 export const updateAdminUser = async (dataObj) => {
   const url = adminAPI;
-  return apiProcessor({ method: "put", url, dataObj });
+  return apiProcessor({
+    method: "put",
+    url,
+    dataObj,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 // export const postUser = async (usrObj) => {
@@ -95,69 +143,155 @@ export const updateAdminUser = async (dataObj) => {
 
 export const getCategories = () => {
   const url = catEP;
-  return apiProcessor({ method: "get", url });
+  return apiProcessor({
+    method: "get",
+    url,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 export const postCategories = (dataObj) => {
   const url = catEP;
-  return apiProcessor({ method: "post", url, dataObj });
+  return apiProcessor({
+    method: "post",
+    url,
+    dataObj,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 export const updateCategory = (dataObj) => {
   const url = catEP;
-  return apiProcessor({ method: "put", url, dataObj });
+  return apiProcessor({
+    method: "put",
+    url,
+    dataObj,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 export const deleteCategory = (_id) => {
   const url = catEP;
-  return apiProcessor({ method: "delete", url, dataObj: { _id } });
+  return apiProcessor({
+    method: "delete",
+    url,
+    dataObj: { _id },
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 // ###### PRODUCT API EP ###########
 export const getProducts = () => {
   const url = productEP;
-  return apiProcessor({ method: "get", url });
+  return apiProcessor({
+    method: "get",
+    url,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 export const getSingleProduct = (_id) => {
   const url = productEP + "/" + _id;
-  return apiProcessor({ method: "get", url });
+  return apiProcessor({
+    method: "get",
+    url,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 export const postProduct = (dataObj) => {
   const url = productEP;
-  return apiProcessor({ method: "post", url, dataObj });
+  return apiProcessor({
+    method: "post",
+    url,
+    dataObj,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 export const deleteProducts = (dataObj) => {
   const url = productEP;
-  return apiProcessor({ method: "delete", url, dataObj });
+  return apiProcessor({
+    method: "delete",
+    url,
+    dataObj,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 export const updateProduct = (dataObj) => {
   const url = productEP;
-  return apiProcessor({ method: "put", url, dataObj });
+  return apiProcessor({
+    method: "put",
+    url,
+    dataObj,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 // ##### Payment Method API
 export const getPaymentMethods = (_id) => {
   const url = _id ? paymentMethodEP + "/" + _id : paymentMethodEP;
-  return apiProcessor({ method: "get", url });
+  return apiProcessor({
+    method: "get",
+    url,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 export const postPaymentMethod = (dataObj) => {
   const url = paymentMethodEP;
-  return apiProcessor({ method: "post", url, dataObj });
+  return apiProcessor({
+    method: "post",
+    url,
+    dataObj,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 export const deletePaymentMethod = (_id) => {
   const url = paymentMethodEP + "/" + _id;
-  return apiProcessor({ method: "delete", url });
+  return apiProcessor({
+    method: "delete",
+    url,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 export const updatePaymentMethod = (dataObj) => {
   const url = paymentMethodEP;
-  return apiProcessor({ method: "put", url, dataObj });
+  return apiProcessor({
+    method: "put",
+    url,
+    dataObj,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };
 
 // #### REQUEST OTP
@@ -176,5 +310,12 @@ export const updateAdminPassword = (dataObj) => {
 //update password
 export const updateAdminPasswordFormProfile = (dataObj) => {
   const url = adminAPI + "/update-password";
-  return apiProcessor({ method: "patch", url, dataObj });
+  return apiProcessor({
+    method: "patch",
+    url,
+    dataObj,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
 };

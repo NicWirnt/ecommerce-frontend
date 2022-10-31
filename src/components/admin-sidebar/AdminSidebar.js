@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { adminLogout } from "../../pages/register-login/signInUpAction";
 import { toggleSidebar } from "../../system-state/systemSlice";
 
 export const AdminSidebar = () => {
@@ -71,8 +72,8 @@ export const AdminSidebar = () => {
                 <i className="fa-solid fa-screwdriver-wrench"></i> Settings
               </Link>
             </ListGroup.Item>
-            <ListGroup.Item onClick={() => dispatch(toggleSidebar())}>
-              <Link className="nav-link" to="/">
+            <ListGroup.Item onClick={() => dispatch(adminLogout())}>
+              <Link className="nav-link" to="#">
                 <i className="fa-solid fa-arrow-right-from-bracket"></i> Logout
               </Link>
             </ListGroup.Item>

@@ -15,6 +15,7 @@ import { NewProduct } from "./pages/product/NewProduct";
 import { EditProduct } from "./pages/product/EditProduct";
 import { PaymentMethod } from "./pages/payment-method/PaymentMethod";
 import ResetPassword from "./pages/register-login/ResetPassword";
+import PrivateRoute from "./components/private-route/PrivateRoute";
 
 const App = () => {
   return (
@@ -22,19 +23,77 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           {/* PRIVATE ROUTE */}
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/admin-profile" element={<AdminProfile />} />
-          <Route path="/categories" element={<Categories />} />
 
-          <Route path="/products" element={<Products />} />
-          <Route path="/product/new" element={<NewProduct />} />
-          <Route path="/product/edit/:_id" element={<EditProduct />} />
-          <Route path="/payments" element={<PaymentMethod />} />
+          <Route
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin-profile"
+            element={
+              <PrivateRoute>
+                <AdminProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/categories"
+            element={
+              <PrivateRoute>
+                <Categories />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/products"
+            element={
+              <PrivateRoute>
+                <Products />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/product/new"
+            element={
+              <PrivateRoute>
+                <NewProduct />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/product/edit/:_id"
+            element={
+              <PrivateRoute>
+                <EditProduct />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/payments"
+            element={
+              <PrivateRoute>
+                <PaymentMethod />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <PrivateRoute>
+                <RegistrationPage />
+              </PrivateRoute>
+            }
+          />
 
           {/* public routes */}
           <Route path="/" element={<LoginPage />} />
           <Route path="/forget-password" element={<ResetPassword />} />
-          <Route path="/register" element={<RegistrationPage />} />
+
           <Route path="/admin/verify-email" element={<EmailVerification />} />
 
           <Route path="*" element={<h1>404 page not found</h1>} />
