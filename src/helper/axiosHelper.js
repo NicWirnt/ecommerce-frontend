@@ -20,21 +20,24 @@ const apiProcessor = async ({ method, url, dataObj, headers }) => {
   } catch (error) {
     let message = error.message;
 
+    if (error.response && error.response.status === 401) {
+      sessionStorage.removeItem("accessJWT");
+      localStorage.removeItem("refreshJWT");
+      return {
+        status: "error",
+        message: "Unauthenticated",
+      };
+    }
+
     if (error.message && error.response.data) {
       message = error.response.data.message;
     }
 
     if (message === "JWT expired!!") {
       // call the api to get new refreshJWT and re call the api Processor itself
-      const { accessJWT } = await apiProcessor({
-        method: "get",
-        url: adminAPI + "/accessjwt",
-        headers: {
-          Authorization: localStorage.getItem("refreshJWT"),
-        },
-      });
+      const accessJWT = await requestNewAccessJWT();
+
       if (accessJWT) {
-        await sessionStorage.setItem("accessJWT", accessJWT);
         return apiProcessor({
           method,
           url,
@@ -51,6 +54,19 @@ const apiProcessor = async ({ method, url, dataObj, headers }) => {
       message,
     };
   }
+};
+
+//api jwt
+export const requestNewAccessJWT = async () => {
+  const { accessJWT } = await apiProcessor({
+    method: "get",
+    url: adminAPI + "/accessjwt",
+    headers: {
+      Authorization: localStorage.getItem("refreshJWT"),
+    },
+  });
+  sessionStorage.setItem("accessJWT", accessJWT);
+  return accessJWT;
 };
 
 // #### ADMIN EP

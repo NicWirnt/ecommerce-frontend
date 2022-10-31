@@ -1,13 +1,17 @@
 import React from "react";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
-import { authoAdminLogin } from "../../pages/register-login/signInUpAction";
+import { useSelector } from "react-redux";
+import { Navigate, useLocation } from "react-router-dom";
 
 export const PrivateRoute = ({ children, ...rest }) => {
+  const location = useLocation();
+
   const { user } = useSelector((state) => state.admin);
 
-  return user._id ? children : <Navigate to="/" />;
+  return user._id ? (
+    children
+  ) : (
+    <Navigate to="/" replace state={{ from: location }} />
+  );
 };
 
 export default PrivateRoute;

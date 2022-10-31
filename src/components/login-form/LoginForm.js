@@ -7,11 +7,16 @@ import {
   postUserAction,
 } from "../../pages/register-login/signInUpAction";
 import { isPending } from "../../pages/register-login/signInUpSlice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
   const dispatch = useDispatch();
   const nav = useNavigate();
+  const location = useLocation();
+
+  const origin =
+    (location.state && location.state.from && location.state.from.pathname) ||
+    "/dashboard";
 
   // const [form, setForm] = useState(initialState);
   //pull data from redux store
@@ -22,7 +27,7 @@ const LoginForm = () => {
   const passRef = useRef();
 
   useEffect(() => {
-    user._id && nav("/dashboard");
+    user._id && nav(origin);
   }, [user]);
 
   const handleOnSubmit = (e) => {

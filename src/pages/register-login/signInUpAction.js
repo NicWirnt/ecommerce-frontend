@@ -2,11 +2,11 @@ import { getAdminUser, loginUser, postUser } from "../../helper/axiosHelper";
 import { isPending, responseResolved } from "./signInUpSlice.js";
 import { toast } from "react-toastify";
 import { setUser } from "../admin-profile/AdminProfileSlice";
+import { requestNewAccessJWT } from "../../helper/axiosHelper.js";
 
 export const postUserAction = (user) => async (dispatch) => {
   dispatch(isPending());
 
-  console.log(user);
   // call Axios Helper to call API
 
   const promiseData = postUser(user);
@@ -49,17 +49,22 @@ const fetchUser = (accessJWT) => async (dispatch) => {
   response.status === "success" && dispatch(setUser(response.user));
 };
 
-export const authoAdminLogin = () => (dispatch) => {
+export const authoAdminLogin = () => async (dispatch) => {
   const accessJWT = sessionStorage.getItem("accessJWT");
   const refreshJWT = localStorage.getItem("refreshJWT");
 
-  if (accessJWT) {
-    dispatch(fetchUser());
-    return;
-  }
   //if accessJWT exist, fetch user and mount user in our state
   //else
   //if refreshJWT exist, fetch new accessJWT and fetch the user
+  if (accessJWT) {
+    dispatch(fetchUser());
+    return;
+  } else if (refreshJWT) {
+    const token = await requestNewAccessJWT();
+    token ? dispatch(fetchUser()) : dispatch(adminLogout());
+  } else {
+    dispatch(adminLogout());
+  }
 };
 
 export const adminLogout = () => (dispatch) => {
