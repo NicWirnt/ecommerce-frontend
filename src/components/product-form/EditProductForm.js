@@ -3,10 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategoriesAction } from "../../pages/category/categoryAction";
-import {
-  postProductAction,
-  updateProductAction,
-} from "../../pages/product/productAction";
+import { updateProductAction } from "../../pages/product/productAction";
 import { CustomInput } from "../custom-input/CustomInput";
 
 const initialState = {
@@ -56,7 +53,7 @@ export const EditProductForm = () => {
   };
 
   const handleOnImageDelete = (e) => {
-    const { checked, name, value } = e.target;
+    const { checked, value } = e.target;
     if (checked) {
       setImgToDelete([...imgToDelete, value]);
     } else {
@@ -65,7 +62,6 @@ export const EditProductForm = () => {
   };
 
   const handleOnSubmit = (e) => {
-    console.log(form);
     e.preventDefault();
 
     if (!window.confirm("Are you sure you want to update this product?"))
@@ -82,7 +78,6 @@ export const EditProductForm = () => {
 
     for (const key in rest) {
       formData.append(key, rest[key]);
-      console.log(key, rest[key]);
     }
 
     newImages.length &&
@@ -234,7 +229,7 @@ export const EditProductForm = () => {
                 crossOrigin="anonymous"
                 key={imgLink}
                 src={process.env.REACT_APP_IMAGE_SERVER_URL + imgLink.substr(6)}
-                alt="products image"
+                alt="products"
                 width="200px"
                 className="img-thumbnail rounded"
               />

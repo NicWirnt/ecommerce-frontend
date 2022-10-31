@@ -8,7 +8,6 @@ import {
 } from "../../pages/category/categoryAction";
 import { toggleModal } from "../../system-state/systemSlice";
 import { EditCategory } from "../category-form/EditCategory";
-import { MyVerticallyCenteredModal } from "../modal/Modal";
 
 const CategoryTable = () => {
   const dispatch = useDispatch();
@@ -78,7 +77,12 @@ const CategoryTable = () => {
                   return (
                     <tr key={cat._id}>
                       <td>{number++}</td>
-                      <td>&nbsp; &nbsp; ➡️{cat.catName}</td>
+                      <td>
+                        <span role="img" aria-label="right arrow">
+                          &nbsp; &nbsp; ➡️
+                        </span>
+                        {cat.catName}
+                      </td>
                       <td
                         className={
                           cat.status == "active"

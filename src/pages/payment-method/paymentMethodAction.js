@@ -20,7 +20,7 @@ export const fetchPaymentMethodsAction = () => async (dispatch) => {
 export const fetchSinglePaymentMethodsAction = (_id) => async (dispatch) => {
   //call axioshelper to call api
   const response = await getPaymentMethods(_id);
-  console.log(response.result);
+
   //get data and set to state
   response.status === "success" &&
     dispatch(setSelectedPaymentMethod(response.result));
@@ -62,7 +62,7 @@ export const editPaymentMethodAction = (_id) => async (dispatch) => {
 
 export const updatePaymentMethodAction = (dataObj) => async (dispatch) => {
   const responsePromise = updatePaymentMethod(dataObj);
-  console.log(dataObj);
+
   toast.promise(responsePromise, {
     pending: "Please Wait ....",
   });

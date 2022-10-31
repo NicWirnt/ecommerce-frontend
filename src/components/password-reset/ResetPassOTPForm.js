@@ -1,11 +1,8 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import { Alert, Button, Container, Form, Spinner } from "react-bootstrap";
 import "./resetPassForm.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  requestPassResetOTPAction,
-  resetPassAction,
-} from "../../pages/admin-profile/AdminProfileAction";
+import { resetPassAction } from "../../pages/admin-profile/AdminProfileAction";
 import { useState } from "react";
 
 const initialState = {

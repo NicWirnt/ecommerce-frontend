@@ -32,7 +32,7 @@ export const Header = () => {
                   </Link>
                 </>
               ) : (
-                <i class="fa-solid fa-envelope"></i>
+                <i className="fa-solid fa-envelope"></i>
               )}
             </Nav>
           </Navbar.Collapse>
