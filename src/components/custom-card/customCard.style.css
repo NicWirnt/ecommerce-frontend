@@ -1,0 +1,15 @@
+.card{
+    background: linear-gradient(to right, rgb(164, 250, 253), rgb(125, 98, 245));
+    box-shadow: -5px 5px 5px rgb(rgb(85, 85, 85), rgb(189, 248, 189), rgb(143, 143, 245));
+}
+
+.card-title{
+    font-size:3rem;
+    border:5px double rgb(163, 248, 201);
+    width: 150px;
+    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+} 
