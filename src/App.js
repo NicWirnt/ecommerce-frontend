@@ -16,6 +16,7 @@ import { EditProduct } from "./pages/product/EditProduct";
 import { PaymentMethod } from "./pages/payment-method/PaymentMethod";
 import ResetPassword from "./pages/register-login/ResetPassword";
 import PrivateRoute from "./components/private-route/PrivateRoute";
+import Setting from "./pages/setting/Setting";
 
 const App = () => {
   return (
@@ -86,6 +87,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <RegistrationPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <PrivateRoute>
+                <Setting />
               </PrivateRoute>
             }
           />

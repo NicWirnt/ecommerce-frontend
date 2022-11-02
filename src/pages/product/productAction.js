@@ -12,8 +12,9 @@ export const fetchProductAction = () => async (dispatch) => {
   // call axios helper api
 
   const response = await getProducts();
+  const { status, products } = response;
 
-  response.status === "success" && dispatch(setProducts(response.result));
+  status === "success" && products.length && dispatch(setProducts(products));
 };
 
 export const fetchSingleProductAction = (_id) => async (dispatch) => {

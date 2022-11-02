@@ -85,7 +85,7 @@ const Dashboard = () => {
       <div className="products">
         <h5>Product Summary</h5>
         <hr />
-        <Row>
+        <Row className="g-3">
           <Col md="4">
             {" "}
             <CustomCard title="Total Products" count={products.length} />
