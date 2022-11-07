@@ -5,6 +5,8 @@ const adminAPI = rootUrlAPI + "/admin";
 const catEP = rootUrlAPI + "/category";
 const productEP = rootUrlAPI + "/products";
 const paymentMethodEP = rootUrlAPI + "/payment-method";
+const customerEP = rootUrlAPI + "/customers";
+
 // http://localhost:8000/api/v1/admin/email-verification
 // ADMIN API
 // data must be an object
@@ -330,6 +332,18 @@ export const updateAdminPasswordFormProfile = (dataObj) => {
     method: "patch",
     url,
     dataObj,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
+};
+
+// CUSTOMER MANAGEMENT API
+export const getCustomers = (_id) => {
+  const url = _id ? customerEP + "/_id" : customerEP;
+  return apiProcessor({
+    method: "get",
+    url,
     headers: {
       Authorization: sessionStorage.getItem("accessJWT"),
     },

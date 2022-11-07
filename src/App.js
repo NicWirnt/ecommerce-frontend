@@ -1,10 +1,9 @@
-import { Button } from "react-bootstrap";
 import "./App.css";
 import { RegistrationPage } from "./pages/register-login/Registration";
-import ReactDOM from "react-dom/client";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/register-login/Login";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import EmailVerification from "./pages/register-login/EmailVerification";
 import Dashboard from "./pages/dashboard/Dashboard";
@@ -17,6 +16,7 @@ import { PaymentMethod } from "./pages/payment-method/PaymentMethod";
 import ResetPassword from "./pages/register-login/ResetPassword";
 import PrivateRoute from "./components/private-route/PrivateRoute";
 import Setting from "./pages/setting/Setting";
+import { Customers } from "./pages/customers/Customers";
 
 const App = () => {
   return (
@@ -95,6 +95,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <Setting />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/customers"
+            element={
+              <PrivateRoute>
+                <Customers />
               </PrivateRoute>
             }
           />
