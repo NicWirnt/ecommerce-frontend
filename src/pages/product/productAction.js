@@ -23,7 +23,7 @@ export const fetchSingleProductAction = (_id) => async (dispatch) => {
   const response = await getSingleProduct(_id);
 
   response.status === "success" &&
-    dispatch(setSeletectedProduct(response.result));
+    dispatch(setSeletectedProduct(response.products));
 };
 export const postProductAction = (dataObj) => async (dispatch) => {
   const responsePromise = postProduct(dataObj);
