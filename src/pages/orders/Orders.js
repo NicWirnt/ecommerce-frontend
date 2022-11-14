@@ -6,6 +6,7 @@ import AdminLayout from "../layouts/AdminLayout";
 import Dropdown from "react-bootstrap/Dropdown";
 import { getOrdersAction } from "./orderAction";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Orders = () => {
   const dispatch = useDispatch();
@@ -59,7 +60,7 @@ export const Orders = () => {
               <td>{item.totalAmount}</td>
               <td>{item.paymentInfo.status}</td>
               <td>
-                <Button variant="link">Info</Button>
+                <Link to={`/orders/${item._id}`}>Info</Link>
               </td>
             </tr>
           ))}
