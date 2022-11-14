@@ -33,25 +33,31 @@ export const Reviews = () => {
       <Table className="stripped">
         <thead>
           <tr>
-            <td>Product Id</td>
+            <td>#</td>
             <td>Product Name</td>
             <td>Rating</td>
-            <td>Reviewer ID</td>
+            <td>Review</td>
             <td>Reviewer Name</td>
+            <td>Action</td>
           </tr>
         </thead>
         <tbody>
           {reviews.map((item, i) => (
             <tr>
-              <td>
+              <td>{i + 1}</td>
+              {/* <td>
                 <Button onClick={() => handleOnProductClick(item.productId)}>
                   {item.productId}
                 </Button>
-              </td>
+              </td> */}
               <td>{item.productName}</td>
               <td>{item.rating}</td>
-              <td>{item.reviewdBy_Id}</td>
+              <td>{item.review}</td>
               <td>{item.reviewedBy}</td>
+              <td>
+                <Button variant="warning">Edit</Button>{" "}
+                <Button variant="danger">Delete</Button>
+              </td>
             </tr>
           ))}
         </tbody>

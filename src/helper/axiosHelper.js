@@ -7,6 +7,7 @@ const productEP = rootUrlAPI + "/products";
 const paymentMethodEP = rootUrlAPI + "/payment-method";
 const customerEP = rootUrlAPI + "/customers";
 const reviewEP = rootUrlAPI + "/reviews";
+const ordersEP = rootUrlAPI + "/orders";
 
 // http://localhost:8000/api/v1/admin/email-verification
 // ADMIN API
@@ -354,6 +355,18 @@ export const getCustomers = (_id) => {
 // REVIEW API
 export const getReview = () => {
   const url = reviewEP;
+  return apiProcessor({
+    method: "get",
+    url,
+    headers: {
+      Authorization: sessionStorage.getItem("accessJWT"),
+    },
+  });
+};
+
+// Orders API
+export const getOrders = () => {
+  const url = ordersEP;
   return apiProcessor({
     method: "get",
     url,

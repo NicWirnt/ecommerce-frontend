@@ -17,10 +17,13 @@ const ProductTable = () => {
   const [ids, setIds] = useState([]);
   const { products } = useSelector((state) => state.productStore);
 
+  const [displayProduct, setDisplayProduct] = useState([]);
+
   useEffect(() => {
     //call api to fetch all the cats and set in the store
-    dispatch(fetchProductAction());
-  }, []);
+    !displayProduct.length && dispatch(fetchProductAction());
+    setDisplayProduct(products);
+  }, [products]);
 
   const handleOnDelete = () => {
     if (window.confirm("Are you sure you want to delete this products?")) {
@@ -34,7 +37,7 @@ const ProductTable = () => {
 
     if (value === "all") {
       if (checked) {
-        const allIds = products.map((item) => item._id);
+        const allIds = displayProduct.map((item) => item._id);
         setIds(allIds);
       } else {
         setIds([]);
@@ -47,9 +50,45 @@ const ProductTable = () => {
       : setIds(ids.filter((id) => id !== value));
   };
 
+  const handleOnFilter = (e) => {
+    const value = e.target.value;
+
+    if (!value) {
+      setDisplayProduct(products);
+    } else {
+      setDisplayProduct(products.filter((item) => item.status === value));
+    }
+  };
+
+  const handleOnChange = (e) => {
+    const { value } = e.target;
+
+    setDisplayProduct(
+      products.filter((item) =>
+        item.name.toLowerCase().includes(value.toLowerCase())
+      )
+    );
+  };
+
   return (
     <div style={{ overflowX: "scroll" }} className="mb-5">
-      {products.length} Products found <hr />
+      <hr />
+      <div className="mt-3 d-flex justify-content-end">
+        <Form.Control
+          name="search"
+          placeholder="Search"
+          className="m-3"
+          onChange={handleOnChange}
+        />
+
+        <Form.Select id="" className="m-3" onChange={handleOnFilter}>
+          <option value="">Filter Status</option>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </Form.Select>
+      </div>
+      <div>{displayProduct.length} Products found </div>
+      <hr />
       <Table striped>
         <thead>
           <tr>
@@ -67,7 +106,7 @@ const ProductTable = () => {
           </tr>
         </thead>
         <tbody>
-          {products.map((item, i) => (
+          {displayProduct.map((item, i) => (
             <tr key={item._id}>
               <td>
                 <Form.Check

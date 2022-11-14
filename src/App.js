@@ -18,6 +18,7 @@ import PrivateRoute from "./components/private-route/PrivateRoute";
 import Setting from "./pages/setting/Setting";
 import { Customers } from "./pages/customers/Customers";
 import { Reviews } from "./pages/reviews/Reviews";
+import { Orders } from "./pages/orders/Orders";
 
 const App = () => {
   return (
@@ -115,7 +116,14 @@ const App = () => {
               </PrivateRoute>
             }
           />
-
+          <Route
+            path="/orders"
+            element={
+              <PrivateRoute>
+                <Orders />
+              </PrivateRoute>
+            }
+          />
           {/* public routes */}
           <Route path="/" element={<LoginPage />} />
           <Route path="/forget-password" element={<ResetPassword />} />
