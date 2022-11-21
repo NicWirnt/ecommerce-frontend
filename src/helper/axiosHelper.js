@@ -342,7 +342,7 @@ export const updateAdminPasswordFormProfile = (dataObj) => {
 
 // CUSTOMER MANAGEMENT API
 export const getCustomers = (_id) => {
-  const url = _id ? customerEP + "/_id" : customerEP;
+  const url = _id ? customerEP + "/" + _id : customerEP;
   return apiProcessor({
     method: "get",
     url,
