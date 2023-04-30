@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const rootUrlAPI = "http://localhost:8000/api/v1";
+// const rootUrlAPI = "http://localhost:8000/api/v1";
+const rootUrlAPI = "https://enigmatic-badlands-17073.herokuapp.com/";
 const adminAPI = rootUrlAPI + "/admin";
 const catEP = rootUrlAPI + "/category";
 const productEP = rootUrlAPI + "/products";
