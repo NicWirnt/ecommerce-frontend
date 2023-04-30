@@ -37,6 +37,7 @@ const LoginForm = () => {
 
     if (!email || !password) {
       alert("Both email and password must be filled");
+      return;
     }
 
     //call api, through action

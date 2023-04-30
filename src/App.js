@@ -85,14 +85,7 @@ const App = () => {
               </PrivateRoute>
             }
           />
-          <Route
-            path="/register"
-            element={
-              <PrivateRoute>
-                <RegistrationPage />
-              </PrivateRoute>
-            }
-          />
+
           <Route
             path="/settings"
             element={
@@ -134,6 +127,7 @@ const App = () => {
             }
           />
           {/* public routes */}
+          <Route path="/register" element={<RegistrationPage />} />
           <Route path="/" element={<LoginPage />} />
           <Route path="/forget-password" element={<ResetPassword />} />
 
